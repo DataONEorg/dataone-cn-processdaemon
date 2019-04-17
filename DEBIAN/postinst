@@ -263,7 +263,7 @@ if su - $PG_USER -c "psql -t -c '\du'| cut -d \| -f 1 | grep -qw $REPLICATION_HI
   log "User $REPLICATION_HISTORY_DB_USER exists and we will not create it"
 else
   log "User $REPLICATION_HISTORY_DB_USER does not exist and we will create it"
-  if ! (su ${PG_USER} -c "psql -c \"CREATE USER ${REPLICATION_HISTORY_DB_USER} WITH UNENCRYPTED PASSWORD '${REPLICATION_HISTORY_DB_PASS}'\"" >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 ); then
+  if ! (su ${PG_USER} -c "psql -c \"CREATE USER ${REPLICATION_HISTORY_DB_USER} WITH PASSWORD '${REPLICATION_HISTORY_DB_PASS}'\"" >> ${D1_LOG_DIR}/${D1_LOG_FILE} 2>&1 ); then
       logError "Unable to CREATE USER ${REPLICATION_HISTORY_DB_USER}"
       exitWithFailureCode 25
   fi
