@@ -245,6 +245,10 @@ if ! (grep --silent --no-messages "${REPLICATION_HISTORY_DB} ${REPLICATION_HISTO
   echo "host ${REPLICATION_HISTORY_DB} ${REPLICATION_HISTORY_DB_USER} 127.0.0.1 255.255.255.255 password" >> ${PG_CONF}/pg_hba.conf
 fi
 
+## This should be removed after we upgrade the jdbc driver
+log "commenting out the lines with the authorization method md5 in ${PG_CONF}/pg_hba.conf"
+sed -i '/^[^#].*md5/ s/^/#/' ${PG_CONF}/pg_hba.conf
+
 ## create replication history  schema and user
 log "Creating replication history database schema"
 if su ${PG_USER} -c "psql -lqt | cut -d \| -f 1 | grep -qw $REPLICATION_HISTORY_DB" ; then
